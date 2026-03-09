@@ -1,0 +1,40 @@
+* {
+  background-color: #ff4d4d;
+}
+
+.title {
+  color: white;
+  text-align: center;
+}
+
+.select-your-pokemon {
+  color: white;
+  text-align: center
+}
+
+.card-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  text-align: center;
+  padding: 1rem;
+  margin: 0 1rem;
+}
+
+.list-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.img-wrap {
+  border: 2px solid black;
+  padding: 1rem;
+  margin: 1rem;
+}
+
