@@ -5,11 +5,13 @@
 .title {
   color: white;
   text-align: center;
+  font-size: 3rem;
 }
 
 .select-your-pokemon {
   color: white;
-  text-align: center
+  text-align: center;
+  font-size: 2rem;
 }
 
 .card-container {
@@ -33,8 +35,15 @@
 }
 
 .img-wrap {
-  border: 2px solid black;
-  padding: 1rem;
+  display: flex;
+  border: 5px solid black;
   margin: 1rem;
+  padding: 1rem;
+  border-radius: 50%;
+}
+
+.img-wrap img {
+  width: 200px;
+  height: 200px;
 }
 

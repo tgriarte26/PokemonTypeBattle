@@ -18,6 +18,9 @@ function displayRandomPokemon() {
     const listItem = document.createElement("div");
     listItem.className = "list-item";
     listItem.innerHTML = `
+    <div class="name-wrap">
+      <p>${pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)}</p>
+    </div>
     <div class="img-wrap">
       <img class="pokemon-img-wrap" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/${randomPokemonId + 1}.svg" alt="${pokemon.name}" />
     </div>
