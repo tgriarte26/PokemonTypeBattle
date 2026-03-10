@@ -21,7 +21,7 @@
 }
 
 .card {
-  display: grid;
+  display: flex;
   grid-template-columns: repeat(3, 1fr);
   text-align: center;
   padding: 1rem;
@@ -36,14 +36,45 @@
 
 .img-wrap {
   display: flex;
-  border: 5px solid black;
+  border: 10px solid white;
   margin: 1rem;
-  padding: 1rem;
+  padding: 3rem;
   border-radius: 50%;
 }
 
 .img-wrap img {
   width: 200px;
   height: 200px;
+  justify-content: center;
+  align-items: center;
 }
 
+.pokemon-wrap {
+  display: flex;
+  margin: 1rem;
+  padding: 3rem;
+  border-radius: 50%;
+}
+
+.pokemon-wrap img {
+  width: 200px;
+  height: 200px;
+}
+
+.button-wrap {
+  border: none;
+}
+
+.name-wrap p {
+  font-size: 1.5rem;
+}
+
+
+.type-wrap p {
+  display: inline-flex;
+  margin: 0.5rem;
+  padding: 1rem;
+  border: 5px solid white;
+  border-radius: 2rem;
+  color: white;
+}
