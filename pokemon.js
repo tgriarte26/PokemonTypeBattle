@@ -4,6 +4,7 @@ const listWrapper = document.querySelector(".list-wrapper");
 const computerPokemonWrapper = document.querySelector(".computer-pokemon-wrapper");
 let allPokemons = [];
 
+
 fetch(`https://pokeapi.co/api/v2/pokemon?limit=${MAX_POKEMON}`)
   // convert to json
   .then((response) => response.json())
@@ -25,16 +26,18 @@ async function displayRandomPokemon() {
     listItem.className = "list-item";
 
     listItem.innerHTML = `
-    <div class="name-wrap">
-      <p>${pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)}</p>
-    </div>
-    <div class="img-wrap">
-      <button class="button-wrap" onclick="chosenPokemon(${randomPokemonId}); displayComputerPokemon()">
-        <img class="pokemon-img-wrap" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/${randomPokemonId + 1}.svg" alt="${pokemon.name}"/>
-      </button>
-    </div>
-    <div class="type-wrap">
-      ${pokemonData.types.map(type => `<p>${type.type.name}</p>`).join("")}
+    <div class="pokemon-card-wrap">
+      <div class="name-wrap">
+        <p>${pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)}</p>
+      </div>
+      <div class="img-wrap">
+        <button class="button-wrap" onclick="chosenPokemon(${randomPokemonId}); displayComputerPokemon()">
+          <img class="pokemon-img-wrap" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/${randomPokemonId + 1}.svg" alt="${pokemon.name}"/>
+        </button>
+      </div>
+      <div class="type-wrap">
+        ${pokemonData.types.map(type => `<p>${type.type.name}</p>`).join("")}
+      </div>
     </div>
   `;
     listWrapper.appendChild(listItem);
