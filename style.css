@@ -73,9 +73,9 @@
 .type-wrap p {
   display: inline-flex;
   margin: 1rem 0.2rem;
-  padding: 1rem;
-  border: 5px solid white;
+  padding: 0.2rem 1rem;
   border-radius: 2rem;
+  font-weight: 800;
   color: white;
 }
 
@@ -83,5 +83,16 @@
   border: 5px solid red;
   margin: 1rem;
   padding: 1rem;
+  border-radius: 1rem;
+}
+
+.battle-card-container {
+  display: flex;
+  justify-content: center;
+}
+
+.battle-result {
+  border: 2px solid black;
+  padding: 0 1rem;
   border-radius: 1rem;
 }

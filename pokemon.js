@@ -2,7 +2,7 @@ const MAX_POKEMON = 151;
 const selectedPokemonWrapper = document.querySelector(".selected-pokemon-wrapper");
 const listWrapper = document.querySelector(".list-wrapper");
 const computerPokemonWrapper = document.querySelector(".computer-pokemon-wrapper");
-const battleResult = document.querySelector(".battle-result");
+const battleResultWrapper = document.querySelector(".battle-result");
 let allPokemons = [];
 let playerPokemonData = null;
 let computerPokemonData = null;
@@ -45,6 +45,27 @@ const typeChart = {
   fairy: { strong: ["fighting", "dragon", "dark"], weak: ["fire", "poison", "steel"] }
 };
 
+const typeColors = {
+  normal: "#A8A77A",
+  fire: "#EE8130",
+  water: "#6390F0",
+  electric: "#F7D02C",
+  grass: "#7AC74C",
+  ice: "#96D9D6",
+  fighting: "#C22E28",
+  poison: "#A33EA1",
+  ground: "#E2BF65",
+  flying: "#A98FF3",
+  psychic: "#F95587",
+  bug: "#A6B91A",
+  rock: "#B6A136",
+  ghost: "#735797",
+  dragon: "#6F35FC",
+  dark: "#705746",
+  steel: "#B7B7CE",
+  fairy: "#D685AD"
+};
+
 fetch(`https://pokeapi.co/api/v2/pokemon?limit=${MAX_POKEMON}`)
   // convert to json
   .then((response) => response.json())
@@ -76,7 +97,11 @@ async function displayRandomPokemon() {
         </button>
       </div>
       <div class="type-wrap">
-        ${pokemonData.types.map(type => `<p>${type.type.name}</p>`).join("")}
+        ${pokemonData.types.map(type => `
+          <p style="background:${typeColors[type.type.name]}" class="type-badge">
+            ${type.type.name}
+        </p>
+          `).join("")}
       </div>
     </div>
   `;
@@ -107,7 +132,11 @@ async function chosenPokemon(id) {
       </button>
     </div>
     <div class="type-wrap">
-      ${pokemonData.types.map(type => `<p>${type.type.name}</p>`).join("")}
+      ${pokemonData.types.map(type => `
+          <p style="background:${typeColors[type.type.name]}" class="type-badge">
+            ${type.type.name}
+        </p>
+          `).join("")}
     </div>
   `;
 
@@ -135,7 +164,11 @@ async function displayComputerPokemon() {
       </button>
     </div>
     <div class="type-wrap">
-      ${pokemonData.types.map(type => `<p>${type.type.name}</p>`).join("")}
+      ${pokemonData.types.map(type => `
+          <p style="background:${typeColors[type.type.name]}" class="type-badge">
+            ${type.type.name}
+        </p>
+          `).join("")}
     </div>
   `
   computerPokemonWrapper.appendChild(computerPokemonItem);
@@ -161,9 +194,22 @@ function getTypeMultiplier(attackerType, defenderTypes) {
 }
 
 function decideWinner(playerTypes, computerTypes) {
-  const playerDamageMultiplier = getTypeMultiplier(playerTypes[0], computerTypes);
+  let playerDamageMultiplier = 0;
+  let computerDamageMultiplier = 0;
+
+  playerTypes.forEach(type => {
+    const damage = getTypeMultiplier(type, computerTypes);
+    if (damage > playerDamageMultiplier) {
+      playerDamageMultiplier = damage;
+    }
+  })
   
-  const computerDamageMultiplier = getTypeMultiplier(computerTypes[0], playerTypes);
+  computerTypes.forEach(type => {
+    const damage = getTypeMultiplier(type, playerTypes);
+    if (damage > computerDamageMultiplier) {
+      computerDamageMultiplier = damage;
+    }
+  })
 
   if (playerDamageMultiplier > computerDamageMultiplier) {
     return "Player wins!"
@@ -175,6 +221,7 @@ function decideWinner(playerTypes, computerTypes) {
 }
 
 function runBattle() {
+  battleResultWrapper.innerHTML = "";
   if(!playerPokemonData || !computerPokemonData) {
     return;
   }
@@ -183,6 +230,11 @@ function runBattle() {
   const computerTypes = computerPokemonData.types.map(t => t.type.name);
 
   const result = decideWinner(playerTypes, computerTypes);
+  const battleResultItem = document.createElement("div");
+  battleResultItem.className = "battle-result-item";
+  battleResultItem.innerHTML = `
+      <h2>${result}</h2>
+  `
 
-  battleResult.innerText = result;
+  battleResultWrapper.append(battleResultItem);
 }
