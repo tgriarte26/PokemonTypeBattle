@@ -87,8 +87,8 @@ async function displayRandomPokemon() {
     listItem.className = "list-item";
 
     listItem.innerHTML = `
-    <div class="pokemon-card-wrap">
-      <div class="name-wrap">
+    <div class="pokemon-card-wrapv">
+      <div class="name-wrap bitcount-prop-double-font">
         <p>${pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)}</p>
       </div>
       <div class="img-wrap">
@@ -123,7 +123,7 @@ async function chosenPokemon(id) {
   const selectedPokemon = document.createElement("div");
   selectedPokemon.className = "selected-pokemon"
   selectedPokemon.innerHTML = `
-    <div class="name-wrap">
+    <div class="name-wrap bitcount-prop-double-font">
       <p>${pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)}</p>
     </div>
     <div class="pokemon-wrap">
@@ -155,7 +155,7 @@ async function displayComputerPokemon() {
   const computerPokemonItem = document.createElement("div");
   computerPokemonItem.className = "computer-pokemon-item"
   computerPokemonItem.innerHTML = `
-    <div class="name-wrap">
+    <div class="name-wrap bitcount-prop-double-font">
       <p>${pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)}</p>
     </div>
     <div class="pokemon-wrap">

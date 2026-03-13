@@ -1,11 +1,20 @@
+@import url('https://fonts.googleapis.com/css2?family=Bitcount+Prop+Double:wght@100..900&display=swap');
+
 * {
   background-color: #ff4d4d;
+}
+
+.bitcount-prop-double-font {
+  font-family: "Bitcount Prop Double", system-ui;
+  font-optical-sizing: auto;
+  font-style: normal;
 }
 
 .title {
   color: white;
   text-align: center;
   font-size: 3rem;
+  font-weight: 600;
 }
 
 .select-your-pokemon {
