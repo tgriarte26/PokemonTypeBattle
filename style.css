@@ -21,6 +21,8 @@
   color: white;
   text-align: center;
   font-size: 2rem;
+  font-weight: 500;
+  margin-bottom: 1rem;
 }
 
 .card-container {
@@ -66,8 +68,8 @@
 }
 
 .pokemon-wrap img {
-  width: 200px;
-  height: 200px;
+  width: 150px;
+  height: 150px;
 }
 
 .button-wrap {
@@ -84,13 +86,14 @@
   margin: 1rem 0.2rem;
   padding: 0.2rem 1rem;
   border-radius: 2rem;
-  font-weight: 800;
+  font-weight: 400;
   color: white;
+  border: 3px solid black;
 }
 
 .pokemon-card-wrap {
   border: 5px solid red;
-  margin: 1rem;
+  margin: 0 1rem;
   padding: 1rem;
   border-radius: 1rem;
 }
@@ -104,4 +107,20 @@
   border: 2px solid black;
   padding: 0 1rem;
   border-radius: 1rem;
+}
+
+.play-again-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.inner-button {
+  display: flex;
+  
+  padding: 0.3rem 1rem;
+  border: 3px solid black;
+  border-radius: 1rem;
+  font-weight: 500;
+  background-color: green;
 }

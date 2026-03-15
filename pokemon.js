@@ -3,6 +3,7 @@ const selectedPokemonWrapper = document.querySelector(".selected-pokemon-wrapper
 const listWrapper = document.querySelector(".list-wrapper");
 const computerPokemonWrapper = document.querySelector(".computer-pokemon-wrapper");
 const battleResultWrapper = document.querySelector(".battle-result");
+const playAgainWrapper = document.querySelector(".play-again-button");
 let allPokemons = [];
 let playerPokemonData = null;
 let computerPokemonData = null;
@@ -82,12 +83,12 @@ async function displayRandomPokemon() {
 
     const response = await fetch(pokemon.url);
     const pokemonData = await response.json();
-
+    battleResultWrapper.style.display = "none";
     const listItem = document.createElement("div");
     listItem.className = "list-item";
 
     listItem.innerHTML = `
-    <div class="pokemon-card-wrapv">
+    <div class="pokemon-card-wrap">
       <div class="name-wrap bitcount-prop-double-font">
         <p>${pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)}</p>
       </div>
@@ -197,6 +198,8 @@ function decideWinner(playerTypes, computerTypes) {
   let playerDamageMultiplier = 0;
   let computerDamageMultiplier = 0;
 
+  battleResultWrapper.style.display = "flex";
+
   playerTypes.forEach(type => {
     const damage = getTypeMultiplier(type, computerTypes);
     if (damage > playerDamageMultiplier) {
@@ -235,6 +238,33 @@ function runBattle() {
   battleResultItem.innerHTML = `
       <h2>${result}</h2>
   `
+  playAgain();
 
   battleResultWrapper.append(battleResultItem);
+}
+
+function resetGame() {
+  playerPokemonData = null;
+  computerPokemonData = null;
+
+  computerPokemonWrapper.innerHTML = "";
+  battleResultWrapper.innerHTML = "";
+  playAgainWrapper.innerHTML = "";
+
+  selectedPokemonWrapper.innerHTML = "";
+
+  listWrapper.style.display = "flex";
+  document.querySelector(".select-your-pokemon").style.display = "block";
+
+  displayRandomPokemon();
+}
+
+function playAgain() {
+  playAgainWrapper.innerHTML = "";
+  const playAgainItem = document.createElement("div");
+  playAgainItem.className = "play-again-item";
+  playAgainItem.innerHTML = `
+      <div class="inner-button" onclick="resetGame()">Play Again</div>
+  `
+  playAgainWrapper.append(playAgainItem);
 }
