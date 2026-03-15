@@ -1,7 +1,11 @@
 const MAX_POKEMON = 151;
-const selectedPokemonWrapper = document.querySelector(".selected-pokemon-wrapper");
+const selectedPokemonWrapper = document.querySelector(
+  ".selected-pokemon-wrapper",
+);
 const listWrapper = document.querySelector(".list-wrapper");
-const computerPokemonWrapper = document.querySelector(".computer-pokemon-wrapper");
+const computerPokemonWrapper = document.querySelector(
+  ".computer-pokemon-wrapper",
+);
 const battleResultWrapper = document.querySelector(".battle-result");
 const playAgainWrapper = document.querySelector(".play-again-button");
 let allPokemons = [];
@@ -11,29 +15,70 @@ let computerPokemonData = null;
 const typeChart = {
   normal: { strong: [], weak: ["rock", "steel"], immune: ["ghost"] },
 
-  fire: { strong: ["grass", "ice", "bug", "steel"], weak: ["fire", "water", "rock", "dragon"] },
+  fire: {
+    strong: ["grass", "ice", "bug", "steel"],
+    weak: ["fire", "water", "rock", "dragon"],
+  },
 
-  water: { strong: ["fire", "ground", "rock"], weak: ["water", "grass", "dragon"] },
+  water: {
+    strong: ["fire", "ground", "rock"],
+    weak: ["water", "grass", "dragon"],
+  },
 
-  electric: { strong: ["water", "flying"], weak: ["electric", "grass", "dragon"], immune: ["ground"] },
+  electric: {
+    strong: ["water", "flying"],
+    weak: ["electric", "grass", "dragon"],
+    immune: ["ground"],
+  },
 
-  grass: { strong: ["water", "ground", "rock"], weak: ["fire", "grass", "poison", "flying", "bug", "dragon", "steel"] },
+  grass: {
+    strong: ["water", "ground", "rock"],
+    weak: ["fire", "grass", "poison", "flying", "bug", "dragon", "steel"],
+  },
 
-  ice: { strong: ["grass", "ground", "flying", "dragon"], weak: ["fire", "water", "ice", "steel"] },
+  ice: {
+    strong: ["grass", "ground", "flying", "dragon"],
+    weak: ["fire", "water", "ice", "steel"],
+  },
 
-  fighting: { strong: ["normal", "rock", "steel", "ice", "dark"], weak: ["poison", "flying", "psychic", "bug", "fairy"], immune: ["ghost"] },
+  fighting: {
+    strong: ["normal", "rock", "steel", "ice", "dark"],
+    weak: ["poison", "flying", "psychic", "bug", "fairy"],
+    immune: ["ghost"],
+  },
 
-  poison: { strong: ["grass", "fairy"], weak: ["poison", "ground", "rock", "ghost"], immune: ["steel"] },
+  poison: {
+    strong: ["grass", "fairy"],
+    weak: ["poison", "ground", "rock", "ghost"],
+    immune: ["steel"],
+  },
 
-  ground: { strong: ["fire", "electric", "poison", "rock", "steel"], weak: ["grass", "bug"], immune: ["flying"] },
+  ground: {
+    strong: ["fire", "electric", "poison", "rock", "steel"],
+    weak: ["grass", "bug"],
+    immune: ["flying"],
+  },
 
-  flying: { strong: ["grass", "fighting", "bug"], weak: ["electric", "rock", "steel"] },
+  flying: {
+    strong: ["grass", "fighting", "bug"],
+    weak: ["electric", "rock", "steel"],
+  },
 
-  psychic: { strong: ["fighting", "poison"], weak: ["psychic", "steel"], immune: ["dark"] },
+  psychic: {
+    strong: ["fighting", "poison"],
+    weak: ["psychic", "steel"],
+    immune: ["dark"],
+  },
 
-  bug: { strong: ["grass", "psychic", "dark"], weak: ["fire", "fighting", "poison", "flying", "ghost", "steel", "fairy"] },
+  bug: {
+    strong: ["grass", "psychic", "dark"],
+    weak: ["fire", "fighting", "poison", "flying", "ghost", "steel", "fairy"],
+  },
 
-  rock: { strong: ["fire", "ice", "flying", "bug"], weak: ["fighting", "ground", "steel"] },
+  rock: {
+    strong: ["fire", "ice", "flying", "bug"],
+    weak: ["fighting", "ground", "steel"],
+  },
 
   ghost: { strong: ["psychic", "ghost"], weak: ["dark"], immune: ["normal"] },
 
@@ -41,9 +86,15 @@ const typeChart = {
 
   dark: { strong: ["psychic", "ghost"], weak: ["fighting", "dark", "fairy"] },
 
-  steel: { strong: ["ice", "rock", "fairy"], weak: ["fire", "water", "electric", "steel"] },
+  steel: {
+    strong: ["ice", "rock", "fairy"],
+    weak: ["fire", "water", "electric", "steel"],
+  },
 
-  fairy: { strong: ["fighting", "dragon", "dark"], weak: ["fire", "poison", "steel"] }
+  fairy: {
+    strong: ["fighting", "dragon", "dark"],
+    weak: ["fire", "poison", "steel"],
+  },
 };
 
 const typeColors = {
@@ -64,7 +115,7 @@ const typeColors = {
   dragon: "#6F35FC",
   dark: "#705746",
   steel: "#B7B7CE",
-  fairy: "#D685AD"
+  fairy: "#D685AD",
 };
 
 fetch(`https://pokeapi.co/api/v2/pokemon?limit=${MAX_POKEMON}`)
@@ -77,13 +128,22 @@ fetch(`https://pokeapi.co/api/v2/pokemon?limit=${MAX_POKEMON}`)
 
 async function displayRandomPokemon() {
   listWrapper.innerHTML = "";
-  for (let i = 0; i < 3; i++) {
-    let randomPokemonId = Math.floor(Math.random() * MAX_POKEMON);
-    const pokemon = allPokemons[randomPokemonId];
+  battleResultWrapper.style.display = "none";
+  const usedIds = new Set();
 
+  for (let i = 0; i < 3; i++) {
+    let randomPokemonId;
+
+    do {
+      randomPokemonId = Math.floor(Math.random() * MAX_POKEMON);
+    } while (usedIds.has(randomPokemonId));
+
+    usedIds.add(randomPokemonId);
+
+    const pokemon = allPokemons[randomPokemonId];
     const response = await fetch(pokemon.url);
     const pokemonData = await response.json();
-    battleResultWrapper.style.display = "none";
+
     const listItem = document.createElement("div");
     listItem.className = "list-item";
 
@@ -98,11 +158,15 @@ async function displayRandomPokemon() {
         </button>
       </div>
       <div class="type-wrap">
-        ${pokemonData.types.map(type => `
+        ${pokemonData.types
+          .map(
+            (type) => `
           <p style="background:${typeColors[type.type.name]}" class="type-badge">
             ${type.type.name}
         </p>
-          `).join("")}
+          `,
+          )
+          .join("")}
       </div>
     </div>
   `;
@@ -122,7 +186,7 @@ async function chosenPokemon(id) {
   console.log(pokemon.name);
   selectedPokemonWrapper.innerHTML = "";
   const selectedPokemon = document.createElement("div");
-  selectedPokemon.className = "selected-pokemon"
+  selectedPokemon.className = "selected-pokemon";
   selectedPokemon.innerHTML = `
     <div class="name-wrap bitcount-prop-double-font">
       <p>${pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)}</p>
@@ -133,11 +197,15 @@ async function chosenPokemon(id) {
       </button>
     </div>
     <div class="type-wrap">
-      ${pokemonData.types.map(type => `
+      ${pokemonData.types
+        .map(
+          (type) => `
           <p style="background:${typeColors[type.type.name]}" class="type-badge">
             ${type.type.name}
         </p>
-          `).join("")}
+          `,
+        )
+        .join("")}
     </div>
   `;
 
@@ -154,7 +222,7 @@ async function displayComputerPokemon() {
   computerPokemonData = pokemonData;
 
   const computerPokemonItem = document.createElement("div");
-  computerPokemonItem.className = "computer-pokemon-item"
+  computerPokemonItem.className = "computer-pokemon-item";
   computerPokemonItem.innerHTML = `
     <div class="name-wrap bitcount-prop-double-font">
       <p>${pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)}</p>
@@ -165,13 +233,17 @@ async function displayComputerPokemon() {
       </button>
     </div>
     <div class="type-wrap">
-      ${pokemonData.types.map(type => `
+      ${pokemonData.types
+        .map(
+          (type) => `
           <p style="background:${typeColors[type.type.name]}" class="type-badge">
             ${type.type.name}
         </p>
-          `).join("")}
+          `,
+        )
+        .join("")}
     </div>
-  `
+  `;
   computerPokemonWrapper.appendChild(computerPokemonItem);
   runBattle();
 }
@@ -179,17 +251,17 @@ async function displayComputerPokemon() {
 function getTypeMultiplier(attackerType, defenderTypes) {
   let multiplier = 1;
 
-  defenderTypes.forEach(defType => {
-    const chart = typeChart[attackerType]
+  defenderTypes.forEach((defType) => {
+    const chart = typeChart[attackerType];
 
-    if(chart.immune?.includes(defType)) {
+    if (chart.immune?.includes(defType)) {
       multiplier *= 0;
     } else if (chart.strong?.includes(defType)) {
       multiplier *= 2;
     } else if (chart.weak?.includes(defType)) {
       multiplier *= 0.5;
-    } 
-  })
+    }
+  });
 
   return multiplier;
 }
@@ -197,47 +269,68 @@ function getTypeMultiplier(attackerType, defenderTypes) {
 function decideWinner(playerTypes, computerTypes) {
   let playerDamageMultiplier = 0;
   let computerDamageMultiplier = 0;
+  let playerBestType = "";
+  let computerBestType = "";
 
   battleResultWrapper.style.display = "flex";
 
-  playerTypes.forEach(type => {
+  playerTypes.forEach((type) => {
     const damage = getTypeMultiplier(type, computerTypes);
     if (damage > playerDamageMultiplier) {
       playerDamageMultiplier = damage;
+      playerBestType = type;
     }
-  })
-  
-  computerTypes.forEach(type => {
+  });
+
+  computerTypes.forEach((type) => {
     const damage = getTypeMultiplier(type, playerTypes);
     if (damage > computerDamageMultiplier) {
       computerDamageMultiplier = damage;
+      computerBestType = type;
     }
-  })
+  });
+
+  let resultText = "";
 
   if (playerDamageMultiplier > computerDamageMultiplier) {
-    return "Player wins!"
+    resultText = "Player wins!";
   }
   if (computerDamageMultiplier > playerDamageMultiplier) {
-    return "Computer wins!"
+    resultText = "Computer wins!";
+  } else {
+    resultText = "Tie!";
   }
-  return "Tie!"
+
+  return `
+    <h2 class="result-text">${resultText}</h2>
+    <p><strong class="attack-text">Player attack:</strong> <span class="result-type-badge" style="background:${typeColors[playerBestType]}">${playerBestType} type → ${playerDamageMultiplier}x damage</span></p>
+    <p><strong class="attack-text">Computer attack:</strong> <span class="result-type-badge" style="background:${typeColors[computerBestType]}">${computerBestType} type → ${computerDamageMultiplier}x damage</span></p>
+    
+    <p class="multiplier-text">
+      The higher multiplier wins.
+    </p>
+    <p class="versus-multiplier">
+      ${playerDamageMultiplier} vs ${computerDamageMultiplier}.
+    </p>
+
+  `;
 }
 
 function runBattle() {
   battleResultWrapper.innerHTML = "";
-  if(!playerPokemonData || !computerPokemonData) {
+  if (!playerPokemonData || !computerPokemonData) {
     return;
   }
 
-  const playerTypes = playerPokemonData.types.map(t => t.type.name);
-  const computerTypes = computerPokemonData.types.map(t => t.type.name);
+  const playerTypes = playerPokemonData.types.map((t) => t.type.name);
+  const computerTypes = computerPokemonData.types.map((t) => t.type.name);
 
   const result = decideWinner(playerTypes, computerTypes);
   const battleResultItem = document.createElement("div");
   battleResultItem.className = "battle-result-item";
   battleResultItem.innerHTML = `
       <h2>${result}</h2>
-  `
+  `;
   playAgain();
 
   battleResultWrapper.append(battleResultItem);
@@ -265,6 +358,6 @@ function playAgain() {
   playAgainItem.className = "play-again-item";
   playAgainItem.innerHTML = `
       <div class="inner-button" onclick="resetGame()">Play Again</div>
-  `
+  `;
   playAgainWrapper.append(playAgainItem);
 }
